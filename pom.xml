@@ -3,7 +3,7 @@
 
     <groupId>net.moznion</groupId>
     <artifactId>ikasan-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ikasan-client</name>
