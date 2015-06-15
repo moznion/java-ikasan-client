@@ -7,8 +7,8 @@
     <packaging>jar</packaging>
 
     <name>ikasan-client</name>
-    <description />
-    <url />
+    <description>Ikasan client for Java</description>
+    <url>https://github.com/moznion/java-ikasan-client</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -171,9 +171,9 @@
     </distributionManagement>
 
     <scm>
-        <url />
-        <connection>scm:git:</connection>
-        <developerConnection>scm:git:</developerConnection>
+        <url>https://github.com/moznion/java-ikasan-client</url>
+        <connection>scm:git:git@github.com:moznion/java-ikasan-client.git</connection>
+        <developerConnection>scm:git:git@github.com:moznion/java-ikasan-client.git</developerConnection>
         <tag>ikasan-client-1.0.0</tag>
     </scm>
 
