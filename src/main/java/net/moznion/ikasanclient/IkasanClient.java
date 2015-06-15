@@ -2,6 +2,7 @@ package net.moznion.ikasanclient;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.moznion.uribuildertiny.URIBuilderTiny;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -9,13 +10,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,11 +103,11 @@ public class IkasanClient {
 
     private HttpResponse postMessage(MessageType messageType, String channel, String message, Color color, MessageFormat messageFormat)
             throws URISyntaxException, IOException {
-        URIBuilder uriBuilder = new URIBuilder()
+        URIBuilderTiny uriBuilder = new URIBuilderTiny()
                 .setScheme("http")
                 .setHost(host)
                 .setPort(port)
-                .setPath(messageType.getValue());
+                .setPaths(messageType.getValue());
 
         if (useSSL) {
             uriBuilder.setScheme("https");
@@ -120,7 +121,7 @@ public class IkasanClient {
         requestParams.add(new BasicNameValuePair("color", color.getValue()));
         requestParams.add(new BasicNameValuePair("message_format", messageFormat.getValue()));
 
-        httpPost.setEntity(new UrlEncodedFormEntity(requestParams));
+        httpPost.setEntity(new UrlEncodedFormEntity(requestParams, StandardCharsets.UTF_8));
         return httpClient.execute(httpPost);
     }
 }
