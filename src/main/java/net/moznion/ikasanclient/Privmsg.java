@@ -1,12 +1,14 @@
 package net.moznion.ikasanclient;
 
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 @Setter
+@Accessors(fluent = true)
 public class Privmsg implements Message {
     private static final MessageType MESSAGE_TYPE = MessageType.PRIVMSG;
 
