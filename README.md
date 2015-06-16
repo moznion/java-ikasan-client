@@ -1,17 +1,41 @@
-ikasan-client
+java-ikasan-client
 =============
-
-TBD
 
 Synopsis
 ---
 
-TBD
+```java
+IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder("ikasan.example.com")
+        .port(8080)
+        .useSSL(true)
+        .verifySSL(true)
+        .build();
+
+// send notice
+ikasanClient.notice("channel", "message")
+        .color(Color.RANDOM)               // Default: Color.YELLOW
+        .messageFormat(MessageFormat.HTML) // Default: MessageFormat.TEXT
+        .nickname("nick")                  // Default: "ikasan"
+        .send();
+
+// send privmsg
+ikasanClient.privmsg("channel", "message")
+        .color(Color.RANDOM)               // Default: Color.YELLOW
+        .messageFormat(MessageFormat.HTML) // Default: MessageFormat.TEXT
+        .nickname("nick")                  // Default: "ikasan"
+        .send();
+```
 
 Description
 --
 
-TBD
+[ikasan](https://github.com/studio3104/ikasan) client for Java (8 or later).
+
+See Also
+--
+
+- [ikasan](https://github.com/studio3104/ikasan)
+- [ikasan-client](https://github.com/studio3104/ikasan-client)
 
 Author
 --
@@ -23,7 +47,7 @@ License
 
 ```
 The MIT License (MIT)
-Copyright © 2014 moznion, http://moznion.net/ <moznion@gmail.com>
+Copyright © 2015 moznion, http://moznion.net/ <moznion@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the “Software”), to deal
