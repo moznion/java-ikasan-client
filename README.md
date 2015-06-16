@@ -5,25 +5,27 @@ Synopsis
 ---
 
 ```java
-IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder("ikasan.example.com")
-        .port(8080)      // Default: 4979
-        .useSSL(true)    // Default: false
-        .verifySSL(true) // Default: true (This option will be activated only when useSSL is true)
-        .build();
+IkasanClientBuilder ikasanClientBuilder = IkasanClient.ikasanClientBuilder("ikasan.example.com")
+    .port(8080)      // Default: 4979
+    .useSSL(true)    // Default: false
+    .verifySSL(true) // Default: true (This option will be activated only when `useSSL` is true)
 
-// send notice
-ikasanClient.notice("channel", "message")
+// IkasanClient implements AutoCloseable
+try (IkasanClient ikasanClient = ikasanClientBuilder.build()) {
+    // send notice
+    ikasanClient.notice("channel", "message")
         .color(HipChatColor.RANDOM)               // Default: HipChatColor.YELLOW
-        .messageFormat(MessageFormat.HTML) // Default: MessageFormat.TEXT
-        .nickname("nick")                  // Default: "ikasan"
+        .messageFormat(HipChatMessageFormat.HTML) // Default: HipChatMessageFormat.TEXT
+        .nickname("nick")                         // Default: "ikasan"
         .send();
 
-// send privmsg
-ikasanClient.privmsg("channel", "message")
+    // send privmsg
+    ikasanClient.privmsg("channel", "message")
         .color(HipChatColor.RANDOM)               // Default: HipChatColor.YELLOW
-        .messageFormat(MessageFormat.HTML) // Default: MessageFormat.TEXT
-        .nickname("nick")                  // Default: "ikasan"
+        .messageFormat(HipChatMessageFormat.HTML) // Default: HipChatMessageFormat.TEXT
+        .nickname("nick")                         // Default: "ikasan"
         .send();
+}
 ```
 
 Description
