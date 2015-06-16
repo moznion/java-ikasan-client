@@ -20,12 +20,13 @@ public class PrivmsgTest {
             assertEquals(HipChatColor.YELLOW.getValue(), req.getParameter("color"));
             assertEquals(HipChatMessageFormat.TEXT.getValue(), req.getParameter("message_format"));
         }, "/", (baseUri) -> {
-            IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder(baseUri.getHost())
+            try (IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder(baseUri.getHost())
                     .port(baseUri.getPort())
                     .useSSL(false)
-                    .build();
-            HttpResponse resp = ikasanClient.privmsg("#channel", "msg").send();
-            assertEquals(200, resp.getStatusLine().getStatusCode());
+                    .build()) {
+                HttpResponse resp = ikasanClient.privmsg("#channel", "msg").send();
+                assertEquals(200, resp.getStatusLine().getStatusCode());
+            }
         });
     }
 
@@ -39,16 +40,17 @@ public class PrivmsgTest {
             assertEquals(HipChatColor.RED.getValue(), req.getParameter("color"));
             assertEquals(HipChatMessageFormat.HTML.getValue(), req.getParameter("message_format"));
         }, "/", (baseUri) -> {
-            IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder(baseUri.getHost())
+            try (IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder(baseUri.getHost())
                     .port(baseUri.getPort())
                     .useSSL(false)
-                    .build();
-            HttpResponse resp = ikasanClient.privmsg("#channel", "msg")
-                    .nickname("nick")
-                    .color(HipChatColor.RED)
-                    .messageFormat(HipChatMessageFormat.HTML)
-                    .send();
-            assertEquals(200, resp.getStatusLine().getStatusCode());
+                    .build()) {
+                HttpResponse resp = ikasanClient.privmsg("#channel", "msg")
+                        .nickname("nick")
+                        .color(HipChatColor.RED)
+                        .messageFormat(HipChatMessageFormat.HTML)
+                        .send();
+                assertEquals(200, resp.getStatusLine().getStatusCode());
+            }
         });
     }
 }

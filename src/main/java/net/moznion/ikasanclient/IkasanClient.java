@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 import net.moznion.ikasanclient.hipchat.Notice;
 import net.moznion.ikasanclient.hipchat.Privmsg;
 import org.apache.http.Header;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.HttpClientConnectionManager;
@@ -14,11 +13,13 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContextBuilder;
 
+import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class IkasanClient {
+public class IkasanClient implements AutoCloseable {
     private static final String USER_AGENT = "Java-Ikasan-Client (Java, version: "
             + Package.getPackage("net.moznion.ikasanclient").getImplementationVersion() + ")";
     private static final List<Header> defaultHeaders;
@@ -38,7 +39,7 @@ public class IkasanClient {
     }
 
     private final String host;
-    private final HttpClient httpClient;
+    private final CloseableHttpClient httpClient;
     private final int port;
     private final boolean useSSL;
 
@@ -94,5 +95,10 @@ public class IkasanClient {
 
     public Privmsg privmsg(String channel, String message) {
         return new Privmsg(this, channel, message);
+    }
+
+    @Override
+    public void close() throws IOException {
+        httpClient.close();
     }
 }
