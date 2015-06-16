@@ -46,7 +46,7 @@ public class IkasanClient {
         private final String host;
         private int port = 4979;
         private boolean useSSL = false;
-        private boolean verifySSL = false;
+        private boolean verifySSL = true;
 
         public IkasanClientBuilder(String host) {
             this.host = host;

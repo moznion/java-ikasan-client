@@ -6,9 +6,9 @@ Synopsis
 
 ```java
 IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder("ikasan.example.com")
-        .port(8080)
-        .useSSL(true)
-        .verifySSL(true)
+        .port(8080)      // Default: 4979
+        .useSSL(true)    // Default: false
+        .verifySSL(true) // Default: true (This option will be activated only when useSSL is true)
         .build();
 
 // send notice
