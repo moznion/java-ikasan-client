@@ -1,4 +1,4 @@
-java-ikasan-client
+java-ikasan-client [![Build Status](https://travis-ci.org/moznion/java-ikasan-client.svg)](https://travis-ci.org/moznion/java-ikasan-client)
 =============
 
 Synopsis
