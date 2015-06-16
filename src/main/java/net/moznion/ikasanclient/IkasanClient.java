@@ -1,15 +1,11 @@
 package net.moznion.ikasanclient;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.moznion.uribuildertiny.URIBuilderTiny;
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -19,18 +15,15 @@ import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class IkasanClient {
     private static final String USER_AGENT = "Java-Ikasan-Client (Java, version: "
             + Package.getPackage("net.moznion.ikasanclient").getImplementationVersion() + ")";
@@ -93,61 +86,11 @@ public class IkasanClient {
                 .build();
     }
 
-    public HttpResponse notice(String channel, String message) throws IOException, URISyntaxException {
-        return notice(channel, message, Color.YELLOW, MessageFormat.TEXT);
+    public Notice notice(String channel, String message) {
+        return new Notice(this, channel, message);
     }
 
-    public HttpResponse notice(String channel, String message, Color color) throws IOException, URISyntaxException {
-        return notice(channel, message, color, MessageFormat.TEXT);
-    }
-
-    public HttpResponse notice(String channel, String message, MessageFormat messageFormat) throws IOException, URISyntaxException {
-        return notice(channel, message, Color.YELLOW, messageFormat);
-    }
-
-    public HttpResponse notice(String channel, String message, Color color, MessageFormat messageFormat)
-            throws IOException, URISyntaxException {
-        return postMessage(MessageType.NOTICE, channel, message, color, messageFormat);
-    }
-
-    public HttpResponse privmsg(String channel, String message) throws IOException, URISyntaxException {
-        return privmsg(channel, message, Color.YELLOW, MessageFormat.TEXT);
-    }
-
-    public HttpResponse privmsg(String channel, String message, Color color) throws IOException, URISyntaxException {
-        return privmsg(channel, message, color, MessageFormat.TEXT);
-    }
-
-    public HttpResponse privmsg(String channel, String message, MessageFormat messageFormat) throws IOException, URISyntaxException {
-        return privmsg(channel, message, Color.YELLOW, messageFormat);
-    }
-
-    public HttpResponse privmsg(String channel, String message, Color color, MessageFormat messageFormat)
-            throws IOException, URISyntaxException {
-        return postMessage(MessageType.PRIVMSG, channel, message, color, messageFormat);
-    }
-
-    private HttpResponse postMessage(MessageType messageType, String channel, String message, Color color, MessageFormat messageFormat)
-            throws URISyntaxException, IOException {
-        URIBuilderTiny uriBuilder = new URIBuilderTiny()
-                .setScheme("http")
-                .setHost(host)
-                .setPort(port)
-                .setPaths(messageType.getValue());
-
-        if (useSSL) {
-            uriBuilder.setScheme("https");
-        }
-
-        HttpPost httpPost = new HttpPost(uriBuilder.build());
-
-        List<NameValuePair> requestParams = new ArrayList<>();
-        requestParams.add(new BasicNameValuePair("channel", channel));
-        requestParams.add(new BasicNameValuePair("message", message));
-        requestParams.add(new BasicNameValuePair("color", color.getValue()));
-        requestParams.add(new BasicNameValuePair("message_format", messageFormat.getValue()));
-
-        httpPost.setEntity(new UrlEncodedFormEntity(requestParams, StandardCharsets.UTF_8));
-        return httpClient.execute(httpPost);
+    public Privmsg privmsg(String channel, String message) {
+        return new Privmsg(this, channel, message);
     }
 }
