@@ -3,6 +3,8 @@ package net.moznion.ikasanclient;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.moznion.ikasanclient.hipchat.Notice;
+import net.moznion.ikasanclient.hipchat.Privmsg;
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;

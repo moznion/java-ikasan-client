@@ -1,4 +1,4 @@
-package net.moznion.ikasanclient;
+package net.moznion.ikasanclient.hipchat;
 
 enum MessageType {
     NOTICE("notice"),

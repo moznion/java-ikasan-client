@@ -13,14 +13,14 @@ IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder("ikasan.example.com
 
 // send notice
 ikasanClient.notice("channel", "message")
-        .color(Color.RANDOM)               // Default: Color.YELLOW
+        .color(HipChatColor.RANDOM)               // Default: HipChatColor.YELLOW
         .messageFormat(MessageFormat.HTML) // Default: MessageFormat.TEXT
         .nickname("nick")                  // Default: "ikasan"
         .send();
 
 // send privmsg
 ikasanClient.privmsg("channel", "message")
-        .color(Color.RANDOM)               // Default: Color.YELLOW
+        .color(HipChatColor.RANDOM)               // Default: HipChatColor.YELLOW
         .messageFormat(MessageFormat.HTML) // Default: MessageFormat.TEXT
         .nickname("nick")                  // Default: "ikasan"
         .send();

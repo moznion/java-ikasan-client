@@ -1,7 +1,8 @@
-package net.moznion.ikasanclient;
+package net.moznion.ikasanclient.hipchat;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.moznion.ikasanclient.IkasanClient;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.net.URISyntaxException;
 
 @Setter
 @Accessors(fluent = true)
-public class Notice implements Message {
+public class Notice implements HipChatMessage {
     private static final MessageType MESSAGE_TYPE = MessageType.NOTICE;
 
     private final IkasanClient ikasanClient;
@@ -17,8 +18,8 @@ public class Notice implements Message {
     private final String message;
 
     private String nickname = "ikasan";
-    private Color color = Color.YELLOW;
-    private MessageFormat messageFormat = MessageFormat.TEXT;
+    private HipChatColor color = HipChatColor.YELLOW;
+    private HipChatMessageFormat messageFormat = HipChatMessageFormat.TEXT;
 
     public Notice(IkasanClient ikasanClient, String channel, String message) {
         this.ikasanClient = ikasanClient;

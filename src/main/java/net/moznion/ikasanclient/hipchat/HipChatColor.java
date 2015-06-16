@@ -1,6 +1,6 @@
-package net.moznion.ikasanclient;
+package net.moznion.ikasanclient.hipchat;
 
-public enum Color {
+public enum HipChatColor {
     YELLOW("yellow"),
     RED("red"),
     GREEN("green"),
@@ -10,11 +10,11 @@ public enum Color {
 
     private final String value;
 
-    Color(String value) {
+    HipChatColor(String value) {
         this.value = value;
     }
 
-    String getValue() {
+    public String getValue() {
         return value;
     }
 }
