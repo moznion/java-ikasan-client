@@ -1,6 +1,7 @@
 package net.moznion.ikasanclient.hipchat;
 
 import net.moznion.ikasanclient.IkasanClient;
+import net.moznion.ikasanclient.Message;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -14,9 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface HipChatMessage {
-    HttpResponse send() throws IOException, URISyntaxException;
-
+public interface HipChatMessage extends Message {
     HipChatMessage nickname(String nickname);
 
     HipChatMessage color(HipChatColor color);

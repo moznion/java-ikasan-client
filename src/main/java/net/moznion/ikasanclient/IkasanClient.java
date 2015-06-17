@@ -3,6 +3,7 @@ package net.moznion.ikasanclient;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.moznion.ikasanclient.hipchat.HipChatMessage;
 import net.moznion.ikasanclient.hipchat.Notice;
 import net.moznion.ikasanclient.hipchat.Privmsg;
 import org.apache.http.Header;
@@ -89,11 +90,11 @@ public class IkasanClient implements AutoCloseable {
                 .build();
     }
 
-    public Notice notice(String channel, String message) {
+    public HipChatMessage notice(String channel, String message) {
         return new Notice(this, channel, message);
     }
 
-    public Privmsg privmsg(String channel, String message) {
+    public HipChatMessage privmsg(String channel, String message) {
         return new Privmsg(this, channel, message);
     }
 
