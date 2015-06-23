@@ -53,4 +53,25 @@ public class PrivmsgTest {
             }
         });
     }
+
+    @Test
+    public void testWithPrefix() throws Exception {
+        JettyServletTester.runServlet((req, resp) -> {
+            assertEquals("/privmsg", req.getPathInfo());
+            assertEquals("#channel", req.getParameter("channel"));
+            assertEquals("[hello]msg", req.getParameter("message"));
+            assertEquals("ikasan", req.getParameter("nickname"));
+            assertEquals(HipChatColor.YELLOW.getValue(), req.getParameter("color"));
+            assertEquals(HipChatMessageFormat.TEXT.getValue(), req.getParameter("message_format"));
+        }, "/", (baseUri) -> {
+            try (IkasanClient ikasanClient = IkasanClient.ikasanClientBuilder(baseUri.getHost())
+                    .port(baseUri.getPort())
+                    .useSSL(false)
+                    .messagePrefix("[hello]")
+                    .build()) {
+                HttpResponse resp = ikasanClient.privmsg("#channel", "msg").send();
+                assertEquals(200, resp.getStatusLine().getStatusCode());
+            }
+        });
+    }
 }

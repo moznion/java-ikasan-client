@@ -43,6 +43,7 @@ public class IkasanClient implements AutoCloseable {
     private final CloseableHttpClient httpClient;
     private final int port;
     private final boolean useSSL;
+    private final String messagePrefix;
 
     @Setter
     @Accessors(fluent = true)
@@ -51,6 +52,7 @@ public class IkasanClient implements AutoCloseable {
         private int port = 4979;
         private boolean useSSL = false;
         private boolean verifySSL = true;
+        private String messagePrefix = "";
 
         public IkasanClientBuilder(String host) {
             this.host = host;
@@ -69,6 +71,7 @@ public class IkasanClient implements AutoCloseable {
         this.host = b.host;
         this.port = b.port;
         this.useSSL = b.useSSL;
+        this.messagePrefix = b.messagePrefix;
 
         RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", PlainConnectionSocketFactory.INSTANCE);
@@ -91,11 +94,11 @@ public class IkasanClient implements AutoCloseable {
     }
 
     public HipChatMessage notice(String channel, String message) {
-        return new Notice(this, channel, message);
+        return new Notice(this, channel, messagePrefix + message);
     }
 
     public HipChatMessage privmsg(String channel, String message) {
-        return new Privmsg(this, channel, message);
+        return new Privmsg(this, channel, messagePrefix + message);
     }
 
     @Override
