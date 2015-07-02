@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
@@ -45,6 +46,9 @@ public interface HipChatMessage extends Message {
         requestParams.add(new BasicNameValuePair("message_format", messageFormat.getValue()));
 
         httpPost.setEntity(new UrlEncodedFormEntity(requestParams, StandardCharsets.UTF_8));
-        return ikasanClient.getHttpClient().execute(httpPost);
+
+        try (CloseableHttpClient client = ikasanClient.getHttpClient()) {
+            return client.execute(httpPost);
+        }
     }
 }

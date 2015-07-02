@@ -8,8 +8,8 @@ import net.moznion.ikasanclient.hipchat.Notice;
 import net.moznion.ikasanclient.hipchat.Privmsg;
 import org.apache.http.Header;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -20,15 +20,13 @@ import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContextBuilder;
 
-import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-public class IkasanClient implements AutoCloseable {
+public class IkasanClient {
     private static final String USER_AGENT = "Java-Ikasan-Client (Java, version: "
             + Package.getPackage("net.moznion.ikasanclient").getImplementationVersion() + ")";
     private static final List<Header> defaultHeaders;
@@ -39,11 +37,17 @@ public class IkasanClient implements AutoCloseable {
         defaultHeaders.add(new BasicHeader("User-Agent", USER_AGENT));
     }
 
+    @Getter
     private final String host;
-    private final CloseableHttpClient httpClient;
+    @Getter
     private final int port;
+    @Getter
     private final boolean useSSL;
+    @Getter
     private final String messagePrefix;
+
+    private final HttpClientBuilder httpClientBuilder;
+    private final Registry<ConnectionSocketFactory> registry;
 
     @Setter
     @Accessors(fluent = true)
@@ -84,13 +88,11 @@ public class IkasanClient implements AutoCloseable {
             registryBuilder.register("https", new SSLConnectionSocketFactory(sslContextBuilder.build()));
         }
 
-        HttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(registryBuilder.build());
+        this.registry = registryBuilder.build();
 
-        this.httpClient = HttpClientBuilder.create()
+        this.httpClientBuilder = HttpClientBuilder.create()
                 .setDefaultRequestConfig(RequestConfig.DEFAULT)
-                .setConnectionManager(connectionManager)
-                .setDefaultHeaders(defaultHeaders)
-                .build();
+                .setDefaultHeaders(defaultHeaders);
     }
 
     public HipChatMessage notice(String channel, String message) {
@@ -101,8 +103,9 @@ public class IkasanClient implements AutoCloseable {
         return new Privmsg(this, channel, messagePrefix + message);
     }
 
-    @Override
-    public void close() throws IOException {
-        httpClient.close();
+    public CloseableHttpClient getHttpClient() {
+        return this.httpClientBuilder
+                .setConnectionManager(new BasicHttpClientConnectionManager(registry))
+                .build();
     }
 }
