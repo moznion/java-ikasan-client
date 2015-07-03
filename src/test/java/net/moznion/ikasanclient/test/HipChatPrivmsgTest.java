@@ -1,7 +1,7 @@
 package net.moznion.ikasanclient.test;
 
 import me.geso.servlettester.jetty.JettyServletTester;
-import net.moznion.ikasanclient.hipchat.HipChatIkasanClient;
+import net.moznion.ikasanclient.hipchat.BasicHipChatIkasanClient;
 import net.moznion.ikasanclient.hipchat.HipChatColor;
 import net.moznion.ikasanclient.hipchat.HipChatMessageFormat;
 import org.apache.http.HttpResponse;
@@ -20,11 +20,11 @@ public class HipChatPrivmsgTest {
             assertEquals(HipChatColor.YELLOW.getValue(), req.getParameter("color"));
             assertEquals(HipChatMessageFormat.TEXT.getValue(), req.getParameter("message_format"));
         }, "/", (baseUri) -> {
-            HipChatIkasanClient hipChatIkasanClient = HipChatIkasanClient.builder(baseUri.getHost())
+            BasicHipChatIkasanClient basicHipChatIkasanClient = BasicHipChatIkasanClient.builder(baseUri.getHost())
                     .port(baseUri.getPort())
                     .useSSL(false)
                     .build();
-            HttpResponse resp = hipChatIkasanClient.privmsg("#channel", "msg").send();
+            HttpResponse resp = basicHipChatIkasanClient.privmsg("#channel", "msg").send();
             assertEquals(200, resp.getStatusLine().getStatusCode());
         });
     }
@@ -39,11 +39,11 @@ public class HipChatPrivmsgTest {
             assertEquals(HipChatColor.RED.getValue(), req.getParameter("color"));
             assertEquals(HipChatMessageFormat.HTML.getValue(), req.getParameter("message_format"));
         }, "/", (baseUri) -> {
-            HipChatIkasanClient hipChatIkasanClient = HipChatIkasanClient.builder(baseUri.getHost())
+            BasicHipChatIkasanClient basicHipChatIkasanClient = BasicHipChatIkasanClient.builder(baseUri.getHost())
                     .port(baseUri.getPort())
                     .useSSL(false)
                     .build();
-            HttpResponse resp = hipChatIkasanClient.privmsg("#channel", "msg")
+            HttpResponse resp = basicHipChatIkasanClient.privmsg("#channel", "msg")
                     .nickname("nick")
                     .color(HipChatColor.RED)
                     .messageFormat(HipChatMessageFormat.HTML)
@@ -62,12 +62,12 @@ public class HipChatPrivmsgTest {
             assertEquals(HipChatColor.YELLOW.getValue(), req.getParameter("color"));
             assertEquals(HipChatMessageFormat.TEXT.getValue(), req.getParameter("message_format"));
         }, "/", (baseUri) -> {
-            HipChatIkasanClient hipChatIkasanClient = HipChatIkasanClient.builder(baseUri.getHost())
+            BasicHipChatIkasanClient basicHipChatIkasanClient = BasicHipChatIkasanClient.builder(baseUri.getHost())
                     .port(baseUri.getPort())
                     .useSSL(false)
                     .messagePrefix("[hello]")
                     .build();
-            HttpResponse resp = hipChatIkasanClient.privmsg("#channel", "msg").send();
+            HttpResponse resp = basicHipChatIkasanClient.privmsg("#channel", "msg").send();
             assertEquals(200, resp.getStatusLine().getStatusCode());
         });
     }

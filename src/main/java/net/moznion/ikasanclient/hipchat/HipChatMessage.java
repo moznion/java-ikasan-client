@@ -22,16 +22,16 @@ public interface HipChatMessage extends Message {
 
     HipChatMessage messageFormat(HipChatMessageFormat messageFormat);
 
-    default HttpResponse postMessage(HipChatIkasanClient hipChatIkasanClient, HipChatMessageType hipChatMessageType, String channel, String message,
+    default HttpResponse postMessage(BasicHipChatIkasanClient basicHipChatIkasanClient, HipChatMessageType hipChatMessageType, String channel, String message,
                                      String nickname, HipChatColor color, HipChatMessageFormat messageFormat)
             throws URISyntaxException, IOException {
         URIBuilderTiny uriBuilder = new URIBuilderTiny()
                 .setScheme("http")
-                .setHost(hipChatIkasanClient.getHost())
-                .setPort(hipChatIkasanClient.getPort())
+                .setHost(basicHipChatIkasanClient.getHost())
+                .setPort(basicHipChatIkasanClient.getPort())
                 .setPaths(hipChatMessageType.getValue());
 
-        if (hipChatIkasanClient.isUseSSL()) {
+        if (basicHipChatIkasanClient.isUseSSL()) {
             uriBuilder.setScheme("https");
         }
 
@@ -46,7 +46,7 @@ public interface HipChatMessage extends Message {
 
         httpPost.setEntity(new UrlEncodedFormEntity(requestParams, StandardCharsets.UTF_8));
 
-        try (CloseableHttpClient client = hipChatIkasanClient.getHttpClient()) {
+        try (CloseableHttpClient client = basicHipChatIkasanClient.getHttpClient()) {
             return client.execute(httpPost);
         }
     }

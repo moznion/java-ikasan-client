@@ -9,10 +9,10 @@ import java.net.URISyntaxException;
 
 @Setter
 @Accessors(fluent = true)
-public class HipChatNotice implements HipChatMessage {
+class HipChatNotice implements HipChatMessage {
     private static final HipChatMessageType MESSAGE_TYPE = HipChatMessageType.NOTICE;
 
-    private final HipChatIkasanClient hipChatIkasanClient;
+    private final BasicHipChatIkasanClient basicHipChatIkasanClient;
     private final String channel;
     private final String message;
 
@@ -20,14 +20,14 @@ public class HipChatNotice implements HipChatMessage {
     private HipChatColor color = HipChatColor.YELLOW;
     private HipChatMessageFormat messageFormat = HipChatMessageFormat.TEXT;
 
-    public HipChatNotice(HipChatIkasanClient hipChatIkasanClient, String channel, String message) {
-        this.hipChatIkasanClient = hipChatIkasanClient;
+    public HipChatNotice(BasicHipChatIkasanClient basicHipChatIkasanClient, String channel, String message) {
+        this.basicHipChatIkasanClient = basicHipChatIkasanClient;
         this.channel = channel;
         this.message = message;
     }
 
     @Override
     public HttpResponse send() throws IOException, URISyntaxException {
-        return postMessage(hipChatIkasanClient, MESSAGE_TYPE, channel, message, nickname, color, messageFormat);
+        return postMessage(basicHipChatIkasanClient, MESSAGE_TYPE, channel, message, nickname, color, messageFormat);
     }
 }

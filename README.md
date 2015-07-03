@@ -5,12 +5,12 @@ Synopsis
 ---
 
 ```java
-HipChatIkasanClientBuilder hipChatIkasanClientBuilder = HipChatIkasanClient.builder("ikasan.example.com")
+BasicHipChatIkasanClientBuilder builder = BasicHipChatIkasanClient.builder("ikasan.example.com")
     .port(8080)       // Default: 4979
     .useSSL(true)     // Default: false
     .verifySSL(true); // Default: true (This option will be activated only when `useSSL` is true)
 
-HipChatIkasanClient ikasanClient = hipChatIkasanClientBuilder.build();
+BasicHipChatIkasanClient ikasanClient = builder.build();
 
 // send notice
 ikasanClient.notice("channel", "message")
