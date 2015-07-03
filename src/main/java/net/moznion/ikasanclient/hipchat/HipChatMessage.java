@@ -1,6 +1,5 @@
 package net.moznion.ikasanclient.hipchat;
 
-import net.moznion.ikasanclient.IkasanClient;
 import net.moznion.ikasanclient.Message;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 import org.apache.http.HttpResponse;
@@ -23,16 +22,16 @@ public interface HipChatMessage extends Message {
 
     HipChatMessage messageFormat(HipChatMessageFormat messageFormat);
 
-    default HttpResponse postMessage(IkasanClient ikasanClient, MessageType messageType, String channel, String message,
+    default HttpResponse postMessage(HipChatIkasanClient hipChatIkasanClient, HipChatMessageType hipChatMessageType, String channel, String message,
                                      String nickname, HipChatColor color, HipChatMessageFormat messageFormat)
             throws URISyntaxException, IOException {
         URIBuilderTiny uriBuilder = new URIBuilderTiny()
                 .setScheme("http")
-                .setHost(ikasanClient.getHost())
-                .setPort(ikasanClient.getPort())
-                .setPaths(messageType.getValue());
+                .setHost(hipChatIkasanClient.getHost())
+                .setPort(hipChatIkasanClient.getPort())
+                .setPaths(hipChatMessageType.getValue());
 
-        if (ikasanClient.isUseSSL()) {
+        if (hipChatIkasanClient.isUseSSL()) {
             uriBuilder.setScheme("https");
         }
 
@@ -47,7 +46,7 @@ public interface HipChatMessage extends Message {
 
         httpPost.setEntity(new UrlEncodedFormEntity(requestParams, StandardCharsets.UTF_8));
 
-        try (CloseableHttpClient client = ikasanClient.getHttpClient()) {
+        try (CloseableHttpClient client = hipChatIkasanClient.getHttpClient()) {
             return client.execute(httpPost);
         }
     }
