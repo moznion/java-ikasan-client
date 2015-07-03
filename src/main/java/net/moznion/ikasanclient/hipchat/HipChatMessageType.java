@@ -1,12 +1,12 @@
 package net.moznion.ikasanclient.hipchat;
 
-enum MessageType {
+enum HipChatMessageType {
     NOTICE("notice"),
     PRIVMSG("privmsg");
 
     private String value;
 
-    MessageType(String value) {
+    HipChatMessageType(String value) {
         this.value = value;
     }
 

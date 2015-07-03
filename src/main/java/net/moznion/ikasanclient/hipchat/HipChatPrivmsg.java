@@ -2,7 +2,6 @@ package net.moznion.ikasanclient.hipchat;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.moznion.ikasanclient.IkasanClient;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
@@ -10,10 +9,10 @@ import java.net.URISyntaxException;
 
 @Setter
 @Accessors(fluent = true)
-public class Privmsg implements HipChatMessage {
-    private static final MessageType MESSAGE_TYPE = MessageType.PRIVMSG;
+public class HipChatPrivmsg implements HipChatMessage {
+    private static final HipChatMessageType MESSAGE_TYPE = HipChatMessageType.PRIVMSG;
 
-    private final IkasanClient ikasanClient;
+    private final HipChatIkasanClient hipChatIkasanClient;
     private final String channel;
     private final String message;
 
@@ -21,14 +20,14 @@ public class Privmsg implements HipChatMessage {
     private HipChatColor color = HipChatColor.YELLOW;
     private HipChatMessageFormat messageFormat = HipChatMessageFormat.TEXT;
 
-    public Privmsg(IkasanClient ikasanClient, String channel, String message) {
-        this.ikasanClient = ikasanClient;
+    public HipChatPrivmsg(HipChatIkasanClient hipChatIkasanClient, String channel, String message) {
+        this.hipChatIkasanClient = hipChatIkasanClient;
         this.channel = channel;
         this.message = message;
     }
 
     @Override
     public HttpResponse send() throws IOException, URISyntaxException {
-        return postMessage(ikasanClient, MESSAGE_TYPE, channel, message, nickname, color, messageFormat);
+        return postMessage(hipChatIkasanClient, MESSAGE_TYPE, channel, message, nickname, color, messageFormat);
     }
 }
