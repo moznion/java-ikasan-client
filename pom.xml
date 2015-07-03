@@ -3,7 +3,7 @@
 
     <groupId>net.moznion</groupId>
     <artifactId>ikasan-client</artifactId>
-    <version>3.1.0</version>
+    <version>3.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ikasan-client</name>
@@ -180,7 +180,7 @@
         <url>https://github.com/moznion/java-ikasan-client</url>
         <connection>scm:git:git@github.com:moznion/java-ikasan-client.git</connection>
         <developerConnection>scm:git:git@github.com:moznion/java-ikasan-client.git</developerConnection>
-        <tag>ikasan-client-3.1.0</tag>
+        <tag>ikasan-client-1.0.0</tag>
     </scm>
 
     <licenses>
